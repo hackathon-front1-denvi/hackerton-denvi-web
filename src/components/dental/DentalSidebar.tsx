@@ -7,26 +7,20 @@ const DentalSidebar = () => {
   const selectedPatient = usePatientStore(s => s.selectedPatient)
 
   return (
-    <aside className="w-[260px] bg-[#081126] rounded-2xl overflow-hidden shadow-lg flex flex-col text-white/90">
+    <aside className="w-[260px] bg-[#081126] overflow-hidden shadow-lg flex flex-col text-white/90 min-h-screen">
       <div className="px-5 py-5 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-              <defs>
-                <linearGradient id="denv-grad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#e6f0ff" />
-                  <stop offset="100%" stopColor="#78b3ff" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M11 2.2c-3.7 0-6.7 3-6.7 6.7v4.2c0 3.7 3 6.7 6.7 6.7 3.7 0 6.7-3 6.7-6.7V8.9c0-3.7-3-6.7-6.7-6.7zm0 3.1c2 0 3.6 1.6 3.6 3.6v4.2c0 2-1.6 3.6-3.6 3.6-2 0-3.6-1.6-3.6-3.6V8.9c0-2 1.6-3.6 3.6-3.6z"
-                fill="url(#denv-grad)"
-              />
+          <div className="w-9 h-9 flex items-center justify-center">
+            <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+              <rect x="2" y="2" width="32" height="32" rx="8" fill="#0A66FF" />
+              <path d="M13 11h6.2a7.8 7.8 0 0 1 0 15.6H13V11z" fill="#FFFFFF" />
+              <path d="M16 14h2.9a4.8 4.8 0 0 1 0 9.6H16V14z" fill="#0A66FF" />
             </svg>
           </div>
           <div>
-            <div className="text-sm font-semibold tracking-wide">DenV AI</div>
-            <div className="text-[10px] text-blue-200 font-semibold">PRO</div>
+            <div className="text-sm font-black tracking-wide">
+              DenV AI <span className="text-[10px] text-blue-700 font-semibold">PRO</span>
+            </div>
           </div>
         </div>
       </div>
@@ -57,15 +51,15 @@ const DentalSidebar = () => {
       <div className="px-5 pt-5">
         <div className="text-[11px] font-semibold text-white/40 tracking-widest">VIEW OPTIONS</div>
         <div className="mt-3 flex flex-col gap-2">
-          <button className="w-full rounded-xl bg-blue-600/90 hover:bg-blue-600 text-left px-4 py-3 text-xs font-semibold flex items-center gap-2">
+          <button className="w-full rounded-xl bg-[#0a66ff] hover:bg-[#0857db] text-left px-4 py-3 text-xs font-semibold flex items-center gap-2 shadow-[0_10px_24px_rgba(10,102,255,0.35)]">
             <Layers size={14} />
             AI 분석 켜짐
           </button>
-          <button className="w-full rounded-xl bg-blue-600/90 hover:bg-blue-600 text-left px-4 py-3 text-xs font-semibold flex items-center gap-2">
+          <button className="w-full rounded-xl bg-[#0a66ff] hover:bg-[#0857db] text-left px-4 py-3 text-xs font-semibold flex items-center gap-2 shadow-[0_10px_24px_rgba(10,102,255,0.35)]">
             <ImageIcon size={14} />
             원본 이미지 보기
           </button>
-          <button className="w-full rounded-xl bg-blue-600/90 hover:bg-blue-600 text-left px-4 py-3 text-xs font-semibold flex items-center gap-2">
+          <button className="w-full rounded-xl bg-[#0a66ff] hover:bg-[#0857db] text-left px-4 py-3 text-xs font-semibold flex items-center gap-2 shadow-[0_10px_24px_rgba(10,102,255,0.35)]">
             <FileText size={14} />
             설명/주석 보기
           </button>
