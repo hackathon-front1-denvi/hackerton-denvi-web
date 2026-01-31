@@ -230,9 +230,7 @@ const UploadPage = () => {
   return (
     <div className="relative flex min-h-screen bg-[#e7eef7] font-sans text-gray-900">
       <aside className="w-14 bg-[#0a1128] flex flex-col items-center py-4 text-white shrink-0">
-        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">
-          D
-        </div>
+        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">D</div>
         <button className="w-9 h-9 rounded-lg bg-blue-600/20 text-blue-300 flex items-center justify-center mb-3">
           <FileText size={18} />
         </button>
@@ -272,9 +270,7 @@ const UploadPage = () => {
             <div className="px-5 py-4 border-b border-gray-100">
               <div className="text-xs font-semibold text-gray-400">환자정보</div>
               <div className="mt-2 rounded-lg bg-gray-50 border border-gray-200 p-3">
-                <div className="text-sm font-semibold text-gray-900">
-                  {selectedPatient?.name ?? '환자 선택'}
-                </div>
+                <div className="text-sm font-semibold text-gray-900">{selectedPatient?.name ?? '환자 선택'}</div>
                 <div className="text-[11px] text-gray-500 mt-1">
                   {selectedPatient
                     ? `${selectedPatient.birthDate} / ${selectedPatient.gender === 'M' ? '남' : '여'}`
@@ -355,7 +351,9 @@ const UploadPage = () => {
                     <div className="text-center">
                       <Upload size={44} className="text-gray-600 mx-auto mb-3 opacity-60" />
                       <p className="text-gray-800 font-bold text-xl tracking-tight">이미지 넣을 부분</p>
-                      <p className="text-gray-600 text-sm mt-2 font-medium">클릭하거나 파일을 드래그하여 업로드하세요</p>
+                      <p className="text-gray-600 text-sm mt-2 font-medium">
+                        클릭하거나 파일을 드래그하여 업로드하세요
+                      </p>
                     </div>
                   </div>
                 ) : (
@@ -404,11 +402,11 @@ const UploadPage = () => {
           </div>
 
           {/* RIGHT: Full-Height Scenario Sidebar */}
-            <div className="w-[360px] flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-              <div className="p-6 border-b border-gray-100">
-                <h2 className="text-base font-bold text-gray-900 mb-1 flex items-center gap-2">진료 시나리오</h2>
-                <p className="text-gray-500 text-xs font-medium">세부 진료 항목을 선택해주세요.</p>
-              </div>
+          <div className="w-[360px] flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-base font-bold text-gray-900 mb-1 flex items-center gap-2">진료 시나리오</h2>
+              <p className="text-gray-500 text-xs font-medium">세부 진료 항목을 선택해주세요.</p>
+            </div>
 
             {/* 아코디언 리스트: 중앙 스크롤 영역 */}
             <div className="flex-1 overflow-y-auto">

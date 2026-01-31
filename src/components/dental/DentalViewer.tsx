@@ -61,7 +61,7 @@ const DentalViewer = () => {
             </h1>
             <p className="text-sm text-gray-500 mt-2">
               이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
-            </p>ㄷ
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
