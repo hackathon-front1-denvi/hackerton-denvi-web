@@ -1,8 +1,5 @@
 'use client'
 
-import '@/shared/lib/firebase'
-import '@/shared/lib/gtag'
-
 import { CUSTOM_APP_URL_HOST, CUSTOM_APP_URL_SCHEME } from '@/enum/scheme'
 import { usePathname, useRouter } from '@/navigation'
 import { useToast } from '@/shared/hooks/useToast'
