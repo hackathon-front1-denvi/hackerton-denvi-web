@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { BarChart2, FileText, Home } from 'lucide-react'
 import { useDentalStore } from '@/store/useDentalStore'
+import { usePatientStore } from '@/store/usePatientStore'
+import { BarChart2, FileText, Home } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const DentalViewer = () => {
   const router = useRouter()
@@ -11,6 +12,7 @@ const DentalViewer = () => {
   const scenarioType = useDentalStore(s => s.scenarioType)
   const scenarioDetails = useDentalStore(s => s.scenarioDetails)
   const uploadedImage = useDentalStore(s => s.uploadedImage)
+  const selectedPatient = usePatientStore(s => s.selectedPatient)
 
   // 상태 관리: 단일 ID가 아닌 배열로 변경
   const normalizedType = useMemo(() => {
@@ -27,9 +29,7 @@ const DentalViewer = () => {
   return (
     <div className="relative flex min-h-screen bg-[#e7eef7] font-sans text-gray-900">
       <aside className="w-14 bg-[#0a1128] flex flex-col items-center py-4 text-white shrink-0">
-        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">
-          D
-        </div>
+        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">D</div>
         <button className="w-9 h-9 rounded-lg bg-blue-600/20 text-blue-300 flex items-center justify-center mb-3">
           <FileText size={18} />
         </button>
@@ -55,7 +55,9 @@ const DentalViewer = () => {
           <div className="mb-6">
             <p className="text-gray-400 font-medium text-sm">Step 3</p>
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              OO님의 구강건강 시나리오 입니다
+              {selectedPatient?.name
+                ? `${selectedPatient.name}님의 구강건강 시나리오 입니다`
+                : 'OO님의 구강건강 시나리오 입니다'}
             </h1>
             <p className="text-sm text-gray-500 mt-2">
               이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
@@ -70,12 +72,7 @@ const DentalViewer = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-            <ImagePanel
-              title="현재"
-              src={xrayBefore}
-              overlayTeeth={selectedTeeth}
-              note="AI로 생성된 이미지입니다."
-            />
+            <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} note="AI로 생성된 이미지입니다." />
             <ImagePanel title="악화 진행 후" src={xrayAfter} note="AI로 생성된 이미지입니다." />
             <ImagePanel title="임상 전" src={clinicalBefore} note="AI로 생성된 이미지입니다." />
             <ImagePanel title="임상 후" src={clinicalAfter} note="AI로 생성된 이미지입니다." />
@@ -97,7 +94,11 @@ const ImagePanel = ({
   title: string
   src: string
   note?: string
-  overlayTeeth?: { id: string; points: { x: number; y: number }[]; bbox: { x: number; y: number; width: number; height: number } }[]
+  overlayTeeth?: {
+    id: string
+    points: { x: number; y: number }[]
+    bbox: { x: number; y: number; width: number; height: number }
+  }[]
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
@@ -151,15 +152,7 @@ const ImagePanel = ({
                 const points = tooth.points
                   .map(p => `${p.x * viewState.scale + viewState.x},${p.y * viewState.scale + viewState.y}`)
                   .join(' ')
-                return (
-                  <polygon
-                    key={tooth.id}
-                    points={points}
-                    fill={`${color}33`}
-                    stroke={color}
-                    strokeWidth={2}
-                  />
-                )
+                return <polygon key={tooth.id} points={points} fill={`${color}33`} stroke={color} strokeWidth={2} />
               }
               const { x, y, width, height } = tooth.bbox
               const rectX = (x - width / 2) * viewState.scale + viewState.x
