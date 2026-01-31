@@ -4,7 +4,6 @@ import Home from '@/assets/icons/menu_home.svg'
 import HomeOn from '@/assets/icons/menu_home_on.svg'
 import StickyBottomBar from '@/components/shared/StickyBottomBar'
 import { env } from '@/shared/lib/env'
-import { logEvent } from '@/shared/lib/gtag'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -23,10 +22,6 @@ export default function MenuBar() {
 
   const handleTabClick = async (e: React.MouseEvent, menu: { label: string; href: string }) => {
     e.preventDefault()
-
-    if (menu.label === '뉴스룸') {
-      logEvent({ eventName: 'news_enter' })
-    }
 
     const currentVersion = env.app.buildVersion
     if (currentVersion == null) {

@@ -2,15 +2,11 @@
 
 import { useDentalStore } from '@/store/useDentalStore'
 import { usePatientStore } from '@/store/usePatientStore'
-import { BarChart2, FileText, Home } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 const DentalViewer = () => {
-  const router = useRouter()
   const selectedTeeth = useDentalStore(s => s.selectedTeeth)
   const scenarioType = useDentalStore(s => s.scenarioType)
-  const scenarioDetails = useDentalStore(s => s.scenarioDetails)
   const uploadedImage = useDentalStore(s => s.uploadedImage)
   const selectedPatient = usePatientStore(s => s.selectedPatient)
 
@@ -34,61 +30,45 @@ const DentalViewer = () => {
   )
 
   return (
-    <div className="relative flex min-h-screen bg-[#e7eef7] font-sans text-gray-900">
-      <aside className="w-14 bg-[#0a1128] flex flex-col items-center py-4 text-white shrink-0">
-        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">D</div>
-        <button className="w-9 h-9 rounded-lg bg-blue-600/20 text-blue-300 flex items-center justify-center mb-3">
-          <FileText size={18} />
-        </button>
-        <button className="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center mb-3">
-          <Home size={18} />
-        </button>
-        <button className="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center mb-3">
-          <BarChart2 size={18} />
-        </button>
-      </aside>
+    <div className="flex-1 flex flex-col min-w-0">
+      <header className="h-14 bg-white border-b flex items-center justify-between px-8">
+        <div className="flex items-center gap-3">
+          <span className="text-blue-600 font-bold text-sm">AI 진단 분석</span>
+          <span className="text-xs text-gray-400">환자 구강건강 시나리오</span>
+        </div>
+        <div className="text-xs text-gray-500">Inference ID: #0af4429</div>
+      </header>
 
-      {/* 2. MAIN CONTENT */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-white border-b flex items-center justify-between px-8">
-          <div className="flex items-center gap-3">
-            <span className="text-blue-600 font-bold text-sm">AI 진단 분석</span>
-            <span className="text-xs text-gray-400">환자 구강건강 시나리오</span>
-          </div>
-          <div className="text-xs text-gray-500">Inference ID: #0af4429</div>
-        </header>
+      <main className="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div className="mb-6">
+          <p className="text-gray-400 font-medium text-sm">Step 3</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            {selectedPatient?.name
+              ? `${selectedPatient.name}님의 구강건강 시나리오 입니다`
+              : 'OO님의 구강건강 시나리오 입니다'}
+          </h1>
+          <p className="text-sm text-gray-500 mt-2">
+            이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
+          </p>
+        </div>
 
-        <main className="flex-1 flex flex-col p-8 overflow-y-auto">
-          <div className="mb-6">
-            <p className="text-gray-400 font-medium text-sm">Step 3</p>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              {selectedPatient?.name
-                ? `${selectedPatient.name}님의 구강건강 시나리오 입니다`
-                : 'OO님의 구강건강 시나리오 입니다'}
-            </h1>
-            <p className="text-sm text-gray-500 mt-2">
-              이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} />
-            <ImagePanel
-              title="악화 진행 후"
-              src={xrayAfter}
-              note="AI로 생성된 이미지입니다."
-              delayMs={afterLoadDelay.xray}
-            />
-            <ImagePanel title="임상 전" src={clinicalBefore} />
-            <ImagePanel
-              title="임상 후"
-              src={clinicalAfter}
-              note="AI로 생성된 이미지입니다."
-              delayMs={afterLoadDelay.clinical}
-            />
-          </div>
-        </main>
-      </div>
+        <div className="grid grid-cols-2 gap-6">
+          <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} />
+          <ImagePanel
+            title="악화 진행 후"
+            src={xrayAfter}
+            note="AI로 생성된 이미지입니다."
+            delayMs={afterLoadDelay.xray}
+          />
+          <ImagePanel title="임상 전" src={clinicalBefore} />
+          <ImagePanel
+            title="임상 후"
+            src={clinicalAfter}
+            note="AI로 생성된 이미지입니다."
+            delayMs={afterLoadDelay.clinical}
+          />
+        </div>
+      </main>
     </div>
   )
 }
