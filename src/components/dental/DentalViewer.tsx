@@ -61,20 +61,13 @@ const DentalViewer = () => {
             </h1>
             <p className="text-sm text-gray-500 mt-2">
               이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
-            </p>
-            <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <div className="font-bold text-gray-800 mb-1">전달된 선택 정보</div>
-              <div className="text-gray-600">
-                선택 시나리오: {scenarioType ? `${scenarioType} / ${scenarioDetails.join(', ')}` : '없음'}
-              </div>
-              <div className="text-gray-600">선택 치아 수: {selectedTeeth.length}</div>
-            </div>
+            </p>ㄷ
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-            <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} note="AI로 생성된 이미지입니다." />
+            <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} />
             <ImagePanel title="악화 진행 후" src={xrayAfter} note="AI로 생성된 이미지입니다." />
-            <ImagePanel title="임상 전" src={clinicalBefore} note="AI로 생성된 이미지입니다." />
+            <ImagePanel title="임상 전" src={clinicalBefore} />
             <ImagePanel title="임상 후" src={clinicalAfter} note="AI로 생성된 이미지입니다." />
           </div>
         </main>
