@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /api
+Disallow: /auth
+Disallow: /login
+Disallow: /join
+Disallow: /join/email
+Disallow: /login/forgot-password
+
+Sitemap: https://yoursaju.kr/sitemap.xml
+Host: https://yoursaju.kr
+
+#DaumWebMasterTool:f7de294c71e8eebd1b0189bca49b0efe4386920dacfe993afc9b75c6e50ce2f5:dMLguEEuCKaBCJLpg4jDig==

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Carrot body -->
+  <path d="M 12 4 Q 13 8, 14 12 Q 14.2 14, 14 16 Q 13.6 18, 13 19 Q 12.4 19.5, 12 19.8 Q 11.6 19.5, 11 19 Q 10.4 18, 10 16 Q 9.8 14, 10 12 Q 11 8, 12 4 Z" 
+        fill="#FF8C42" 
+        stroke="#FF6B1A" 
+        stroke-width="0.5"/>
+  
+  <!-- Carrot shine highlight -->
+  <ellipse cx="11.5" cy="12" rx="1" ry="4" fill="#FFAD70" opacity="0.6"/>
+  
+  <!-- Carrot lines (texture) -->
+  <path d="M 11 10 Q 10.8 11, 10.6 12" stroke="#FF6B1A" stroke-width="0.3" fill="none" opacity="0.5"/>
+  <path d="M 11 14 Q 10.8 15, 10.6 16" stroke="#FF6B1A" stroke-width="0.3" fill="none" opacity="0.5"/>
+  <path d="M 13 11 Q 13.2 12, 13.4 13" stroke="#FF6B1A" stroke-width="0.3" fill="none" opacity="0.5"/>
+  <path d="M 13 15 Q 13.2 16, 13.4 17" stroke="#FF6B1A" stroke-width="0.3" fill="none" opacity="0.5"/>
+  
+  <!-- Left leaf -->
+  <g transform="translate(9, 2) rotate(-30)">
+    <ellipse cx="0" cy="0" rx="2" ry="5" fill="#7CB342"/>
+    <path d="M 0 -4 Q 0 -1, 0 2 Q 0 3, 0 4" stroke="#5A9216" stroke-width="0.4" fill="none"/>
+  </g>
+  
+  <!-- Center leaf -->
+  <g transform="translate(12, 1)">
+    <ellipse cx="0" cy="0" rx="2" ry="5.5" fill="#8BC34A"/>
+    <path d="M 0 -4.5 Q 0 -2, 0 0.5 Q 0 2, 0 4.5" stroke="#689F38" stroke-width="0.4" fill="none"/>
+  </g>
+  
+  <!-- Right leaf -->
+  <g transform="translate(15, 2) rotate(30)">
+    <ellipse cx="0" cy="0" rx="2" ry="5" fill="#7CB342"/>
+    <path d="M 0 -4 Q 0 -1, 0 2 Q 0 3, 0 4" stroke="#5A9216" stroke-width="0.4" fill="none"/>
+  </g>
+</svg>

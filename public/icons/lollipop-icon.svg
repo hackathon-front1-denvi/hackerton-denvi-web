@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Lollipop candy -->
+  <circle cx="12" cy="8" r="6" fill="#FF8C42" stroke="#FF6B1A" stroke-width="0.5"/>
+  
+  <!-- Candy shine highlight -->
+  <ellipse cx="10.5" cy="7" rx="2" ry="3" fill="#FFAD70" opacity="0.6"/>
+  
+  <!-- Spiral pattern -->
+  <path d="M 12 2 Q 10 4, 8 6 Q 6 8, 8 10 Q 10 12, 12 10 Q 14 8, 16 6 Q 18 4, 16 2 Q 14 4, 12 2" 
+        stroke="#FF6B1A" 
+        stroke-width="0.8" 
+        fill="none" 
+        opacity="0.4"/>
+  
+  <!-- Stick -->
+  <rect x="11" y="14" width="2" height="8" rx="1" fill="#8B4513"/>
+  
+  <!-- Cute face -->
+  <!-- Left eye -->
+  <circle cx="9.5" cy="7.5" r="1" fill="#333"/>
+  <circle cx="9.7" cy="7.3" r="0.3" fill="#FFF"/>
+  
+  <!-- Right eye -->
+  <circle cx="14.5" cy="7.5" r="1" fill="#333"/>
+  <circle cx="14.7" cy="7.3" r="0.3" fill="#FFF"/>
+  
+  <!-- Cute smile -->
+  <path d="M 10 9.5 Q 12 10.5, 14 9.5" 
+        stroke="#FF6B1A" 
+        stroke-width="1" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Blush marks -->
+  <ellipse cx="7" cy="8.5" rx="1.5" ry="1" fill="#FFB6B9" opacity="0.5"/>
+  <ellipse cx="17" cy="8.5" rx="1.5" ry="1" fill="#FFB6B9" opacity="0.5"/>
+</svg>

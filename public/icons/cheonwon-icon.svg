@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Banknote base -->
+  <rect x="1.5" y="5" width="21" height="14" rx="2.5" fill="#E9F1FF" stroke="#5E86C9" stroke-width="0.6"/>
+
+  <!-- Inner panel -->
+  <rect x="3" y="6.5" width="18" height="11" rx="1.6" fill="#D7E6FF" stroke="#7AA0E6" stroke-width="0.4"/>
+
+  <!-- Denomination -->
+  <text x="12" y="15" text-anchor="middle" font-size="8" font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="700" fill="#3E5FA6">천원</text>
+</svg>

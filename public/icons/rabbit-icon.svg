@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Rabbit head -->
+  <ellipse cx="12" cy="14" rx="8" ry="7" fill="#FFF5E6" stroke="#FFB366" stroke-width="0.5"/>
+  
+  <!-- Left ear -->
+  <ellipse cx="7" cy="6" rx="2.5" ry="6" fill="#FFF5E6" stroke="#FFB366" stroke-width="0.5"/>
+  <ellipse cx="7" cy="6" rx="1.5" ry="4" fill="#FFB366" opacity="0.3"/>
+  
+  <!-- Right ear -->
+  <ellipse cx="17" cy="6" rx="2.5" ry="6" fill="#FFF5E6" stroke="#FFB366" stroke-width="0.5"/>
+  <ellipse cx="17" cy="6" rx="1.5" ry="4" fill="#FFB366" opacity="0.3"/>
+  
+  <!-- Left eye -->
+  <circle cx="9.5" cy="13" r="1.5" fill="#333"/>
+  <circle cx="9.8" cy="12.7" r="0.5" fill="#FFF"/>
+  
+  <!-- Right eye -->
+  <circle cx="14.5" cy="13" r="1.5" fill="#333"/>
+  <circle cx="14.8" cy="12.7" r="0.5" fill="#FFF"/>
+  
+  <!-- Nose -->
+  <ellipse cx="12" cy="15" rx="1" ry="0.8" fill="#FF8C42"/>
+  
+  <!-- Mouth -->
+  <path d="M 12 15.5 Q 11 16.5, 10.5 17" 
+        stroke="#FF8C42" 
+        stroke-width="1" 
+        fill="none" 
+        stroke-linecap="round"/>
+  <path d="M 12 15.5 Q 13 16.5, 13.5 17" 
+        stroke="#FF8C42" 
+        stroke-width="1" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Blush marks -->
+  <ellipse cx="7" cy="15" rx="2" ry="1.5" fill="#FFB6B9" opacity="0.4"/>
+  <ellipse cx="17" cy="15" rx="2" ry="1.5" fill="#FFB6B9" opacity="0.4"/>
+</svg>

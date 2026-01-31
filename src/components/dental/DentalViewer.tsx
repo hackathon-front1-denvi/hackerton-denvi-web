@@ -1,0 +1,187 @@
+'use client'
+
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { BarChart2, FileText, Home } from 'lucide-react'
+import { useDentalStore } from '@/store/useDentalStore'
+
+const DentalViewer = () => {
+  const router = useRouter()
+  const selectedTeeth = useDentalStore(s => s.selectedTeeth)
+  const scenarioType = useDentalStore(s => s.scenarioType)
+  const scenarioDetails = useDentalStore(s => s.scenarioDetails)
+  const uploadedImage = useDentalStore(s => s.uploadedImage)
+
+  // 상태 관리: 단일 ID가 아닌 배열로 변경
+  const normalizedType = useMemo(() => {
+    const fallback = '구강건강'
+    return (scenarioType ?? fallback).replace(/\s+/g, '')
+  }, [scenarioType])
+
+  const fallbackXrayBefore = `/images/xray_전_${normalizedType}.png`
+  const xrayBefore = uploadedImage ?? fallbackXrayBefore
+  const xrayAfter = `/images/xray_후_${normalizedType}.png`
+  const clinicalBefore = `/images/임상_전_${normalizedType}.png`
+  const clinicalAfter = `/images/임상_후_${normalizedType}.png`
+
+  return (
+    <div className="relative flex min-h-screen bg-[#e7eef7] font-sans text-gray-900">
+      <aside className="w-14 bg-[#0a1128] flex flex-col items-center py-4 text-white shrink-0">
+        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-xs font-bold mb-6">
+          D
+        </div>
+        <button className="w-9 h-9 rounded-lg bg-blue-600/20 text-blue-300 flex items-center justify-center mb-3">
+          <FileText size={18} />
+        </button>
+        <button className="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center mb-3">
+          <Home size={18} />
+        </button>
+        <button className="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center mb-3">
+          <BarChart2 size={18} />
+        </button>
+      </aside>
+
+      {/* 2. MAIN CONTENT */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="h-14 bg-white border-b flex items-center justify-between px-8">
+          <div className="flex items-center gap-3">
+            <span className="text-blue-600 font-bold text-sm">AI 진단 분석</span>
+            <span className="text-xs text-gray-400">환자 구강건강 시나리오</span>
+          </div>
+          <div className="text-xs text-gray-500">Inference ID: #0af4429</div>
+        </header>
+
+        <main className="flex-1 flex flex-col p-8 overflow-y-auto">
+          <div className="mb-6">
+            <p className="text-gray-400 font-medium text-sm">Step 3</p>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+              OO님의 구강건강 시나리오 입니다
+            </h1>
+            <p className="text-sm text-gray-500 mt-2">
+              이해를 돕기 위한 의학적 시뮬레이션입니다. 실제 진행 과정과 다를 수 있으니 참고용으로만 이해해주세요.
+            </p>
+            <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
+              <div className="font-bold text-gray-800 mb-1">전달된 선택 정보</div>
+              <div className="text-gray-600">
+                선택 시나리오: {scenarioType ? `${scenarioType} / ${scenarioDetails.join(', ')}` : '없음'}
+              </div>
+              <div className="text-gray-600">선택 치아 수: {selectedTeeth.length}</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <ImagePanel
+              title="현재"
+              src={xrayBefore}
+              overlayTeeth={selectedTeeth}
+              note="AI로 생성된 이미지입니다."
+            />
+            <ImagePanel title="악화 진행 후" src={xrayAfter} note="AI로 생성된 이미지입니다." />
+            <ImagePanel title="임상 전" src={clinicalBefore} note="AI로 생성된 이미지입니다." />
+            <ImagePanel title="임상 후" src={clinicalAfter} note="AI로 생성된 이미지입니다." />
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export default DentalViewer
+
+const ImagePanel = ({
+  title,
+  src,
+  note,
+  overlayTeeth,
+}: {
+  title: string
+  src: string
+  note?: string
+  overlayTeeth?: { id: string; points: { x: number; y: number }[]; bbox: { x: number; y: number; width: number; height: number } }[]
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
+  const [viewState, setViewState] = useState({ width: 0, height: 0, x: 0, y: 0, scale: 1 })
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => setImageSize({ width: img.width, height: img.height })
+    img.src = src
+  }, [src])
+
+  useEffect(() => {
+    const fit = () => {
+      if (!containerRef.current || imageSize.width === 0 || imageSize.height === 0) return
+      const w = containerRef.current.clientWidth
+      const h = containerRef.current.clientHeight
+      const scale = Math.min((w * 0.95) / imageSize.width, (h * 0.95) / imageSize.height)
+      setViewState({
+        width: w,
+        height: h,
+        x: (w - imageSize.width * scale) / 2,
+        y: (h - imageSize.height * scale) / 2,
+        scale,
+      })
+    }
+    fit()
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [imageSize])
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="px-4 py-3 text-xs text-gray-600 font-semibold">{title}</div>
+      <div ref={containerRef} className="relative bg-[#cfd8e3] h-[220px] overflow-hidden">
+        <img
+          src={src}
+          alt={title}
+          className="absolute"
+          style={{
+            left: viewState.x,
+            top: viewState.y,
+            width: imageSize.width * viewState.scale,
+            height: imageSize.height * viewState.scale,
+          }}
+        />
+        {overlayTeeth && overlayTeeth.length > 0 && (
+          <svg className="absolute left-0 top-0" width={viewState.width} height={viewState.height}>
+            {overlayTeeth.map((tooth, index) => {
+              const color = ['#ef4444', '#f97316', '#3b82f6', '#22c55e'][index % 4]
+              if (tooth.points && tooth.points.length > 0) {
+                const points = tooth.points
+                  .map(p => `${p.x * viewState.scale + viewState.x},${p.y * viewState.scale + viewState.y}`)
+                  .join(' ')
+                return (
+                  <polygon
+                    key={tooth.id}
+                    points={points}
+                    fill={`${color}33`}
+                    stroke={color}
+                    strokeWidth={2}
+                  />
+                )
+              }
+              const { x, y, width, height } = tooth.bbox
+              const rectX = (x - width / 2) * viewState.scale + viewState.x
+              const rectY = (y - height / 2) * viewState.scale + viewState.y
+              return (
+                <rect
+                  key={tooth.id}
+                  x={rectX}
+                  y={rectY}
+                  width={width * viewState.scale}
+                  height={height * viewState.scale}
+                  fill={`${color}33`}
+                  stroke={color}
+                  strokeWidth={2}
+                  strokeDasharray="6 4"
+                />
+              )
+            })}
+          </svg>
+        )}
+      </div>
+      {note && <div className="px-4 py-2 text-[11px] text-gray-400">{note}</div>}
+    </div>
+  )
+}

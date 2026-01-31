@@ -1,0 +1,88 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Next.js build output
+.next
+out
+build
+dist
+
+# Testing
+coverage
+.nyc_output
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__
+jest.config.ts
+
+# Development files
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.vercel
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Documentation
+README.md
+docs
+*.md
+
+# Mobile app directories (not needed for web deployment)
+android
+ios
+capacitor.config.ts
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+logs
+*.log
+
+# Misc
+.keystore
+*.pem
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Supabase temp files
+supabase/.temp
+supabase/.temp/
+
+# Docker files (don't need to copy into container)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
