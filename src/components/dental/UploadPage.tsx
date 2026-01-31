@@ -357,45 +357,55 @@ const UploadPage = () => {
                     </div>
                   </div>
                 ) : (
-                  <Stage width={viewState.stageWidth} height={viewState.stageHeight}>
-                    <Layer>
-                      <Group
-                        x={viewState.imageX}
-                        y={viewState.imageY}
-                        scaleX={viewState.scale}
-                        scaleY={viewState.scale}
-                      >
-                        <KonvaImage image={image} />
-                        {predictions.map((pred, i) => {
-                          const uid = pred.detection_id || `det-${i}`
-                          const active = selectedDetectionIds.includes(uid)
-                          const pts = pred.points ? pred.points.flatMap(p => [p.x, p.y]) : []
-                          return (
-                            <Group key={uid} onClick={() => toggleDetection(uid)}>
-                              {pts.length > 0 && (
-                                <Line
-                                  points={pts}
-                                  closed
-                                  stroke={active ? '#0065f4' : '#4B5563'}
-                                  strokeWidth={2 / viewState.scale}
-                                  fill={active ? 'rgba(0, 101, 244, 0.4)' : 'transparent'}
+                  <>
+                    <Stage width={viewState.stageWidth} height={viewState.stageHeight}>
+                      <Layer>
+                        <Group
+                          x={viewState.imageX}
+                          y={viewState.imageY}
+                          scaleX={viewState.scale}
+                          scaleY={viewState.scale}
+                        >
+                          <KonvaImage image={image} />
+                          {predictions.map((pred, i) => {
+                            const uid = pred.detection_id || `det-${i}`
+                            const active = selectedDetectionIds.includes(uid)
+                            const pts = pred.points ? pred.points.flatMap(p => [p.x, p.y]) : []
+                            return (
+                              <Group key={uid} onClick={() => toggleDetection(uid)}>
+                                {pts.length > 0 && (
+                                  <Line
+                                    points={pts}
+                                    closed
+                                    stroke={active ? '#0065f4' : '#4B5563'}
+                                    strokeWidth={2 / viewState.scale}
+                                    fill={active ? 'rgba(0, 101, 244, 0.4)' : 'transparent'}
+                                  />
+                                )}
+                                <Rect
+                                  x={pred.x - pred.width / 2}
+                                  y={pred.y - pred.height / 2}
+                                  width={pred.width}
+                                  height={pred.height}
+                                  stroke={active ? '#0065f4' : '#9CA3AF'}
+                                  strokeWidth={1 / viewState.scale}
+                                  dash={[4, 4]}
                                 />
-                              )}
-                              <Rect
-                                x={pred.x - pred.width / 2}
-                                y={pred.y - pred.height / 2}
-                                width={pred.width}
-                                height={pred.height}
-                                stroke={active ? '#0065f4' : '#9CA3AF'}
-                                strokeWidth={1 / viewState.scale}
-                                dash={[4, 4]}
-                              />
-                            </Group>
-                          )
-                        })}
-                      </Group>
-                    </Layer>
-                  </Stage>
+                              </Group>
+                            )
+                          })}
+                        </Group>
+                      </Layer>
+                    </Stage>
+                    {isLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#cfd8e3]/80">
+                        <div className="flex items-center gap-2 text-blue-700 text-xs font-semibold">
+                          <Loader2 className="animate-spin" size={16} />
+                          분석 중...
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

@@ -25,6 +25,13 @@ const DentalViewer = () => {
   const xrayAfter = `/images/xray_후_${normalizedType}.png`
   const clinicalBefore = `/images/임상_전_${normalizedType}.png`
   const clinicalAfter = `/images/임상_후_${normalizedType}.png`
+  const afterLoadDelay = useMemo(
+    () => ({
+      xray: 3000 + Math.floor(Math.random() * 2000),
+      clinical: 3000 + Math.floor(Math.random() * 2000),
+    }),
+    [normalizedType],
+  )
 
   return (
     <div className="relative flex min-h-screen bg-[#e7eef7] font-sans text-gray-900">
@@ -66,9 +73,19 @@ const DentalViewer = () => {
 
           <div className="grid grid-cols-2 gap-6">
             <ImagePanel title="현재" src={xrayBefore} overlayTeeth={selectedTeeth} />
-            <ImagePanel title="악화 진행 후" src={xrayAfter} note="AI로 생성된 이미지입니다." />
+            <ImagePanel
+              title="악화 진행 후"
+              src={xrayAfter}
+              note="AI로 생성된 이미지입니다."
+              delayMs={afterLoadDelay.xray}
+            />
             <ImagePanel title="임상 전" src={clinicalBefore} />
-            <ImagePanel title="임상 후" src={clinicalAfter} note="AI로 생성된 이미지입니다." />
+            <ImagePanel
+              title="임상 후"
+              src={clinicalAfter}
+              note="AI로 생성된 이미지입니다."
+              delayMs={afterLoadDelay.clinical}
+            />
           </div>
         </main>
       </div>
@@ -83,6 +100,7 @@ const ImagePanel = ({
   src,
   note,
   overlayTeeth,
+  delayMs,
 }: {
   title: string
   src: string
@@ -92,14 +110,21 @@ const ImagePanel = ({
     points: { x: number; y: number }[]
     bbox: { x: number; y: number; width: number; height: number }
   }[]
+  delayMs?: number
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
   const [viewState, setViewState] = useState({ width: 0, height: 0, x: 0, y: 0, scale: 1 })
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const [isDelayDone, setIsDelayDone] = useState(delayMs === undefined)
 
   useEffect(() => {
     const img = new Image()
-    img.onload = () => setImageSize({ width: img.width, height: img.height })
+    setIsImageLoaded(false)
+    img.onload = () => {
+      setImageSize({ width: img.width, height: img.height })
+      setIsImageLoaded(true)
+    }
     img.src = src
   }, [src])
 
@@ -122,49 +147,74 @@ const ImagePanel = ({
     return () => window.removeEventListener('resize', fit)
   }, [imageSize])
 
+  useEffect(() => {
+    if (delayMs === undefined) {
+      setIsDelayDone(true)
+      return
+    }
+    setIsDelayDone(false)
+    const timer = window.setTimeout(() => setIsDelayDone(true), delayMs)
+    return () => window.clearTimeout(timer)
+  }, [delayMs, src])
+
+  const shouldShowImage = isImageLoaded && isDelayDone
+  const shouldShowLoader = delayMs !== undefined && !shouldShowImage
+
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
       <div className="px-4 py-3 text-xs text-gray-600 font-semibold">{title}</div>
       <div ref={containerRef} className="relative bg-[#cfd8e3] h-[220px] overflow-hidden">
-        <img
-          src={src}
-          alt={title}
-          className="absolute"
-          style={{
-            left: viewState.x,
-            top: viewState.y,
-            width: imageSize.width * viewState.scale,
-            height: imageSize.height * viewState.scale,
-          }}
-        />
-        {overlayTeeth && overlayTeeth.length > 0 && (
-          <svg className="absolute left-0 top-0" width={viewState.width} height={viewState.height}>
-            {overlayTeeth.map((tooth, index) => {
-              const color = ['#ef4444', '#f97316', '#3b82f6', '#22c55e'][index % 4]
-              if (tooth.points && tooth.points.length > 0) {
-                const points = tooth.points
-                  .map(p => `${p.x * viewState.scale + viewState.x},${p.y * viewState.scale + viewState.y}`)
-                  .join(' ')
-                return <polygon key={tooth.id} points={points} fill={`${color}33`} stroke={color} strokeWidth={2} />
-              }
-              const { x, y, width, height } = tooth.bbox
-              const rectX = (x - width / 2) * viewState.scale + viewState.x
-              const rectY = (y - height / 2) * viewState.scale + viewState.y
-              return (
-                <rect
-                  key={tooth.id}
-                  x={rectX}
-                  y={rectY}
-                  width={width * viewState.scale}
-                  height={height * viewState.scale}
-                  fill={`${color}33`}
-                  stroke={color}
-                  strokeWidth={2}
-                  strokeDasharray="6 4"
-                />
-              )
-            })}
-          </svg>
+        {shouldShowImage && (
+          <>
+            <img
+              src={src}
+              alt={title}
+              className="absolute"
+              style={{
+                left: viewState.x,
+                top: viewState.y,
+                width: imageSize.width * viewState.scale,
+                height: imageSize.height * viewState.scale,
+              }}
+            />
+            {overlayTeeth && overlayTeeth.length > 0 && (
+              <svg className="absolute left-0 top-0" width={viewState.width} height={viewState.height}>
+                {overlayTeeth.map((tooth, index) => {
+                  const color = ['#ef4444', '#f97316', '#3b82f6', '#22c55e'][index % 4]
+                  if (tooth.points && tooth.points.length > 0) {
+                    const points = tooth.points
+                      .map(p => `${p.x * viewState.scale + viewState.x},${p.y * viewState.scale + viewState.y}`)
+                      .join(' ')
+                    return <polygon key={tooth.id} points={points} fill={`${color}33`} stroke={color} strokeWidth={2} />
+                  }
+                  const { x, y, width, height } = tooth.bbox
+                  const rectX = (x - width / 2) * viewState.scale + viewState.x
+                  const rectY = (y - height / 2) * viewState.scale + viewState.y
+                  return (
+                    <rect
+                      key={tooth.id}
+                      x={rectX}
+                      y={rectY}
+                      width={width * viewState.scale}
+                      height={height * viewState.scale}
+                      fill={`${color}33`}
+                      stroke={color}
+                      strokeWidth={2}
+                      strokeDasharray="6 4"
+                    />
+                  )
+                })}
+              </svg>
+            )}
+          </>
+        )}
+        {shouldShowLoader && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#cfd8e3]/80">
+            <div className="flex items-center gap-2 text-blue-700 text-xs font-semibold">
+              <span className="h-4 w-4 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
+              분석 중...
+            </div>
+          </div>
         )}
       </div>
       {note && <div className="px-4 py-2 text-[11px] text-gray-400">{note}</div>}
